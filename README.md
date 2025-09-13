@@ -1,7 +1,7 @@
-# FitMaster – AI Coach
+# FitMaster – AI Training Coach with Chatbot
 
 Project developed during the Seneca Hackathon 2025.  
-FitMaster is an AI training coach that analyzes sports movements in real-time via webcam, corrects posture, and provides interactive feedback.  
+FitMaster is an AI-powered training coach that analyzes sports movements in real-time via webcam. It provides instant visual and vocal feedback, evaluates movement quality, helps prevent injuries, and includes an **integrated chatbot** that answers users' questions about exercises, posture, and general workout guidance.  
 
 Deployed on an Ubuntu VPS with SSH access → [Live demo](https://crotale.mirhosty.com/).
 
@@ -13,25 +13,28 @@ Create an AI training coach capable of:
 - Detecting and analyzing sports movements (squat, push-up, burpee, etc.).  
 - Correcting posture in real-time with visual and vocal feedback.  
 - Providing a movement quality score.  
+- Answering user questions through an integrated chatbot about exercises, fitness tips, and training routines.  
 - Preventing injuries and motivating the user.  
 
 ---
 
 ## Tech Stack
 
-- Backend → Flask (Python, port 8097).  
-- Frontend → HTML / CSS / JavaScript.  
-- AI Vision → [MediaPipe](https://developers.google.com/mediapipe) + [PyTorch](https://pytorch.org/).  
-- Deployment → Ubuntu VPS + PM2 for Python process management.  
+- **Backend** → Flask (Python, port 8097)  
+- **Frontend** → HTML / CSS / JavaScript  
+- **AI Vision** → [MediaPipe](https://developers.google.com/mediapipe) + [PyTorch](https://pytorch.org/)  
+- **Chatbot** → integrated on the web interface (JS + Python backend)  
+- **Deployment** → Ubuntu VPS + PM2 for process management  
 
 ---
 
 ## Features
 
-- Real-time detection of multiple exercises: squat, push-up, burpee (+ extensible).  
-- Joint angle analysis to correct posture.  
-- Visual feedback (skeleton overlay) + vocal feedback (“Straighten your back!”).  
-- Assign a quality score for each movement.  
+- Real-time detection of multiple exercises: squat, push-up, burpee (+ extensible)  
+- Joint angle analysis to correct posture  
+- Visual feedback (skeleton overlay) + vocal feedback (“Straighten your back!”)  
+- Movement quality score for each exercise  
+- **Integrated chatbot** to answer questions about exercises, posture, and fitness tips  
 
 ---
 
@@ -91,19 +94,21 @@ Enter the password if prompted.
 Live demo: https://crotale.mirhosty.com/
 
 Team
-AI & Detection → MediaPipe + PyTorch integration.
+AI & Detection → MediaPipe + PyTorch integration
 
-Frontend → HTML / CSS / JS.
+Frontend → HTML / CSS / JS
 
-Backend → Flask + API integration.
+Backend → Flask + API + chatbot integration
 
-Pitch & Design → Storytelling and jury presentation.
+Pitch & Design → Storytelling and jury presentation
 
 Future Improvements
-Add more exercises (lunges, jumping jack, plank, etc.).
+Add more exercises (lunges, jumping jack, plank, etc.)
 
-Improve detection with filters and higher accuracy.
+Improve detection with filters and higher accuracy
 
-Implement a private robotic coach (kinesiologist robot).
+Enhance chatbot intelligence for personalized workout guidance
 
-Gamification (badges, challenges, progress tracking).
+Implement a private robotic coach (kinesiologist robot)
+
+Gamification (badges, challenges, progress tracking)
