@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <!-- Document metadata -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Title should reflect the page's primary purpose -->
+  <title>FitMaster</title>
+
+  <!-- Preconnect hints can improve font/CDN performance (optional) -->
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+
+  <!-- Main stylesheet (Flask/Jinja path preserved) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='fit.css') }}">
+
+  <!-- Provide a basic color scheme hint (optional) -->
+  <meta name="color-scheme" content="dark light">
+</head>
+<body>
+  <!-- Accessible skip link (helps keyboard users jump to main content) -->
+  <a href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"
+     onfocus="this.style.cssText='position:static;width:auto;height:auto'">
+    Skip to main content
+  </a>
+
+  <!-- ===== Top navigation / header landmark ===== -->
+  <header class="topbar" role="banner">
+    <!-- Brand block kept as-is for CSS compatibility -->
+    <div class="brand">
+      <!-- Decorative logo image: empty alt and aria-hidden for screen readers -->
+      <img class="logo" src="{{ url_for('static', filename='Fitmaster-logo.png') }}" alt="" aria-hidden="true">
+      <div>
+        <!-- Main site name; keep h1 for document title -->
+        <h1>FitMaster</h1>
+        <!-- Short tagline; keep exact text for branding -->
+        <p>Le coach qui sent tes mouvements</p>
+      </div>
+    </div>
+
+    <!-- Live status badge:
+         - aria-live="polite" announces updates without interrupting screen readers
+         - role="status" conveys dynamic state changes
+         - Keep IDs/classes used by JS/CSS -->
+    <span id="liveBadge" class="badge offline" role="status" aria-live="polite">HORS LIGNE</span>
+  </header>
+
+  <!-- ===== Main content landmark ===== -->
+  <main id="main" class="grid" role="main">
+    <!-- ===================== LEFT PANEL: Video & Controls ===================== -->
+    <section class="panel left" aria-labelledby="panel-left-title">
+      <!-- Group header with contextual pills (exercise, FPS, safety) -->
+      <div class="panel-header">
+        <span class="pill">
+          <!-- Associate label and dynamic value for SR users -->
+          <span id="panel-left-title" class="sr-only">Exercise and system indicators</span>
+          Exercise: <span id="exerciseName">Squats</span>
+        </span>
+        <span class="pill">FPS: <span id="fpsValue" aria-live="polite">—</span></span>
+        <span id="safetyPill" class="pill ok" aria-live="polite">Safety: OK</span>
+      </div>
+
+      <!-- Video region:
+           - <video> as the live camera feed
+           - <canvas> overlay for pose/skeleton drawing
+           - object-fit handled in CSS; keep IDs for JS -->
+      <div class="video-wrap">
+        <!-- playsinline prevents full-screen takeover on mobile; muted required for autoplay -->
+        <video id="video" playsinline muted aria-label="Live camera preview"></video>
+        <!-- Canvas overlay is purely visual; aria-hidden to avoid double narration -->
+        <canvas id="overlay" aria-hidden="true"></canvas>
+      </div>
+
+      <!-- Controls for exercise selection, camera, and voice coach -->
+      <div class="controls" aria-label="Controls">
+        <!-- Exercise selector: ensure label is associated via for/id -->
+        <label for="exerciseSelect">Choose exercise</label>
+        <select id="exerciseSelect" name="exercise">
+          <!-- Keep values used by your JS -->
+          <option value="squats">Squats</option>
+          <option value="bicep_curls">Bicep Curls</option>
+          <option value="pushups">Push-ups</option>
+        </select>
+
+        <!-- Action buttons:
+             - Add explicit type="button" to prevent accidental form submits in future
+             - aria-controls ties buttons to affected regions (video/status) -->
+        <div class="btns" role="group" aria-label="Camera controls">
+          <button id="startBtn" class="btn primary" type="button" aria-controls="video liveBadge">Start camera</button>
+          <button id="stopBtn" class="btn" type="button" aria-controls="video liveBadge">Stop</button>
+          <button id="resetBtn" class="btn warn" type="button" aria-controls="repCount scoreText">Reset counter</button>
+        </div>
+
+        <!-- Voice coach controls:
+             - Inputs are labelled; ranges have min/max/step preserved
+             - aria-describedby hints current effect (screen readers) -->
+        <div class="btns" style="align-items:center; gap:14px; flex-wrap:wrap" role="group" aria-label="Voice coach">
+          <label style="display:flex; align-items:center; gap:8px">
+            <input id="voiceToggle" type="checkbox" aria-describedby="voiceHelp">
+            Voice coach (speech)
+          </label>
+          <span id="voiceHelp" class="sr-only">Enable to hear spoken feedback.</span>
+
+          <label for="voiceRate">Rate
+            <input id="voiceRate" type="range" min="0.7" max="1.4" value="1.0" step="0.1"
+                   aria-label="Voice rate">
+          </label>
+
+          <label for="voiceVol">Volume
+            <input id="voiceVol" type="range" min="0" max="1" value="0.9" step="0.1"
+                   aria-label="Voice volume">
+          </label>
+        </div>
+      </div>
+
+      <!-- Log list:
+           - role="log" and aria-live to announce new entries
+           - Keep UL + LI items added by JS -->
+      <ul id="logList" class="log" role="log" aria-live="polite" aria-relevant="additions"></ul>
+    </section>
+
+    <!-- ===================== RIGHT PANEL: Coach / Metrics ===================== -->
+    <section class="panel right" aria-labelledby="coach-title">
+      <h2 id="coach-title">Coach</h2>
+
+      <!-- Feedback banner:
+           - role="status" for non-intrusive updates (e.g., “Adjust your stance”)
+           - Keep ID for JS updates -->
+      <div class="feedback" id="feedbackText" role="status" aria-live="polite">
+        Stand in front of the camera
+      </div>
+
+      <!-- Gauge:
+           - SVG-based score indicator; keep IDs used by JS (gaugeArc, scoreText) -->
+      <div class="gauge" aria-label="Movement quality score">
+        <svg viewBox="0 0 120 120" role="img" aria-labelledby="gaugeTitle gaugeDesc">
+          <title id="gaugeTitle">Movement Quality</title>
+          <desc id="gaugeDesc">Circular gauge showing real-time quality score.</desc>
+          <circle cx="60" cy="60" r="50" class="g-bg"></circle>
+          <circle id="gaugeArc" cx="60" cy="60" r="50" class="g-arc" stroke-dasharray="0,100"></circle>
+          <text id="scoreText" x="60" y="65" text-anchor="middle" class="g-text">0</text>
+        </svg>
+        <span>Movement quality score</span>
+      </div>
+
+      <!-- Stats grid: repetitions, tempo, ROM, symmetry -->
+      <div class="stats" aria-label="Performance metrics">
+        <div class="stat">
+          <div class="label">Repetitions</div>
+          <div id="repCount" class="val" aria-live="polite">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Tempo</div>
+          <div id="tempoValue" class="val" aria-live="polite">—</div>
+        </div>
+        <div class="stat">
+          <div class="label">ROM</div>
+          <div id="romValue" class="val" aria-live="polite">—</div>
+        </div>
+        <div class="stat">
+          <div class="label">Symmetry</div>
+          <div id="symValue" class="val" aria-live="polite">—</div>
+        </div>
+      </div>
+
+      <!-- Single preview area:
+           - Keep the three <video> tags and IDs; only one shown via JS at a time
+           - autoplay + muted + loop for seamless GIF-like previews -->
+      <div id="exercisePreview" class="exercise-preview" aria-label="Exercise preview">
+        <video id="preview-squats"
+               src="{{ url_for('static', filename='gifs/1.mp4') }}"
+               autoplay muted loop playsinline aria-hidden="true"></video>
+
+        <video id="preview-bicep_curls"
+               src="{{ url_for('static', filename='gifs/2.mp4') }}"
+               autoplay muted loop playsinline aria-hidden="true"></video>
+
+        <video id="preview-pushups"
+               src="{{ url_for('static', filename='gifs/3.mp4') }}"
+               autoplay muted loop playsinline aria-hidden="true"></video>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Scripts =====
+       - Load Socket.IO first
+       - Defer your app script so it runs after HTML is parsed
+       - Keep versions/URLs as in your project
+  -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='fit.js') }}" defer></script>
+
+  <!-- Noscript fallback for users with JS disabled -->
+  <noscript>
+    <div style="padding:1rem; background:#311; color:#fff; text-align:center;">
+      JavaScript is required to use FitMaster. Please enable JavaScript in your browser.
+    </div>
+  </noscript>
+
+  <!-- Utility CSS class for screen-reader-only text -->
+  <style>
+    /* Visually hidden but accessible to screen readers */
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  </style>
+</body>
+</html>

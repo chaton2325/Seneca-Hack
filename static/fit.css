@@ -1,0 +1,455 @@
+/* =========================================================
+   FitMaster — Fitness Neon Theme
+   - Improved readability
+   - Clear hierarchy
+   - Micro-animations & focus states
+   - Safe drop-in (selectors unchanged)
+   ========================================================= */
+
+/* -----------------------------
+   0) Variables & Reset
+----------------------------- */
+:root {
+    /* Base colors */
+    --bg:        #0f1720;
+    --panel:     #141c26;
+    --panel2:    #111922;
+  
+    /* Text */
+    --text:      #e6f1ff;
+    --muted:     #9bb0c3;
+  
+    /* Status colors */
+    --accent:    #22d3ee;   /* cyan/teal */
+    --good:      #37ff88;
+    --warn:      #ffd166;
+    --bad:       #ff4961;
+  
+    /* Buttons & borders */
+    --btn:       #1f2a36;
+    --outline:   #1a2430;
+  
+    /* Effects */
+    --shadow:    0 8px 30px rgba(0,0,0,.35);
+    --radius:    16px;
+    --gap:       20px;
+  
+    /* Typography */
+    --font:      Inter, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
+  
+    /* Subtle glow effects */
+    --glow-accent: 0 0 0 1px inset rgba(34,211,238,.22),
+                   0 10px 36px rgba(34,211,238,.10);
+    --glow-good:   0 0 0 1px inset rgba(55,255,136,.20),
+                   0 10px 36px rgba(55,255,136,.10);
+  }
+  
+  /* Global reset */
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  
+  /* Body style */
+  body {
+    margin: 0;
+    color: var(--text);
+    font: 15px/1.5 var(--font);
+    background: radial-gradient(80% 60% at 10% -10%, #122233 0%, #0c131b 40%, #0a0f14 100%);
+  }
+  
+  /* Focus styles for accessibility */
+  :where(a, button, select, input, .btn):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent), #fff 20%);
+    outline-offset: 2px;
+    border-radius: 12px;
+  }
+  
+  /* Default transitions */
+  :where(button, .btn, select) { transition: .2s ease; }
+  
+  /* -----------------------------
+     1) Topbar (header)
+  ----------------------------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid #1d2732;
+    backdrop-filter: blur(6px) saturate(120%);
+    background: linear-gradient(180deg, rgba(10,16,22,.75), rgba(10,16,22,.35));
+  }
+  
+  .brand { display: flex; gap: 12px; align-items: center; }
+  .brand .logo { font-size: 28px; }
+  .brand h1 { margin: 0; font-size: 20px; letter-spacing: .3px; }
+  .brand p  { margin: 0; color: var(--muted); font-size: 12px; }
+  
+  /* Connection status badge */
+  .badge {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 700; letter-spacing: .5px;
+    background: linear-gradient(90deg, #ff4069, #ff9b40);
+    color: #0b1016;
+    box-shadow: var(--shadow);
+  }
+  .badge.online {
+    background: linear-gradient(90deg, var(--good), var(--accent));
+    box-shadow: var(--glow-good);
+  }
+  
+  /* -----------------------------
+     2) Layout & Panels
+  ----------------------------- */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.3fr .9fr;
+    gap: var(--gap);
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  
+  .panel {
+    background: linear-gradient(180deg, var(--panel), var(--panel2));
+    border: 1px solid var(--outline);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: radial-gradient(800px 180px at -10% -20%, rgba(34,211,238,.08), transparent 60%);
+  }
+  
+  .panel-header { display: flex; gap: 10px; padding: 6px 8px 12px; }
+  
+  /* Pills (metrics / status indicators) */
+  .pill {
+    background: #0f2530;
+    color: #bfefff;
+    border: 1px solid #1e3947;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .pill.ok     { color: #caffd6; border-color: #254734; background: #0f2b20; }
+  .pill.warn   { color: #ffe4a8; border-color: #5b4a1f; background: #2d2410; }
+  .pill.danger { color: #ffd0d6; border-color: #5b1f2c; background: #2d0f18; }
+  
+  /* -----------------------------
+     3) Video area
+  ----------------------------- */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0b1219;
+    border: 1px solid var(--outline);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  #video, #overlay {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+  
+  /* -----------------------------
+     4) Controls (select, buttons)
+  ----------------------------- */
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .controls label {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  
+  .controls select {
+    width: 240px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: #0e1720;
+    border: 1px solid #223041;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px inset rgba(255,255,255,.04);
+  }
+  .controls select:hover {
+    border-color: color-mix(in srgb, var(--accent), #000 40%);
+  }
+  .controls select:focus-visible {
+    outline-color: rgba(34, 211, 238, .55);
+  }
+  
+  .btns { display: flex; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+  
+  .btn {
+    padding: 10px 14px;
+    color: var(--text);
+    background: var(--btn);
+    border: 1px solid #243142;
+    border-radius: 12px;
+    cursor: pointer;
+    transform: translateZ(0);
+    transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover {
+    filter: brightness(1.06);
+    box-shadow: var(--glow-accent);
+  }
+  .btn:active { transform: translateY(1px); }
+  
+  .btn.primary { background: #0c2730; border-color: #1e3a4a; }
+  .btn.warn    { background: #31220f; border-color: #5b4a1f; color: var(--warn); }
+  
+  /* Extra inputs */
+  .controls input[type="range"] { width: 160px; }
+  .controls input[type="checkbox"] {
+    width: 18px; height: 18px; accent-color: var(--accent);
+  }
+  
+  /* -----------------------------
+     5) Logs (journal area)
+  ----------------------------- */
+  .log {
+    margin: 14px 0 0;
+    padding: 10px;
+    list-style: none;
+    height: 120px; overflow: auto;
+    color: #a8c0d6;
+    background: #0c131b;
+    border: 1px dashed #223041;
+    border-radius: 12px;
+  }
+  
+  /* -----------------------------
+     6) Coach (feedback + gauge + stats)
+  ----------------------------- */
+  .right h2 { margin: 6px 0 10px; }
+  
+  .feedback {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    color: #caffd6;
+    background: #0f2b20;
+    border: 1px solid #254734;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feedback::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(34,211,238,.10) 22%, transparent 44%);
+    transform: translateX(-100%);
+    animation: shine 3.8s infinite ease;
+  }
+  
+  /* Circular gauge */
+  .gauge {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 10px;
+  }
+  .gauge svg { width:130px; height:130px; }
+  
+  .g-bg   { fill: none; stroke: #213142; stroke-width: 10; }
+  .g-arc  { fill: none; stroke: var(--good); stroke-width: 10; stroke-linecap: round; }
+  .g-text { fill: #d8fbe8; font-size: 26px; font-weight: 700; }
+  
+  /* Stats grid */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .stat {
+    padding: 12px;
+    background: #0e1720;
+    border: 1px solid #223041;
+    border-radius: 12px;
+    position: relative; overflow: hidden;
+  }
+  .stat::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(380px 120px at 0% 0%, rgba(34,211,238,.07), transparent 60%);
+  }
+  .stat .label { color: #9bb0c3; font-size: 12px; }
+  .stat .val   { font-size: 22px; font-weight: 700; margin-top: 6px; }
+  
+  /* -----------------------------
+     7) Exercise gallery (cards)
+  ----------------------------- */
+  .exercise-gallery { margin-top: 12px; }
+  
+  .eg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .eg-card {
+    position: relative;
+    background: #0e1720;
+    border: 1px solid #223041;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .3s ease, border-color .2s ease, filter .2s ease;
+  }
+  .eg-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.28);
+  }
+  .eg-card.active {
+    border-color: var(--accent);
+    box-shadow: var(--glow-accent);
+    filter: saturate(1.06) brightness(1.03);
+  }
+  .eg-card.active::after {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(520px 150px at 50% -10%, rgba(34,211,238,.14), transparent 60%);
+  }
+  
+  .eg-card img {
+    display: block;
+    width: 100%; height: 150px; object-fit: cover;
+  }
+  .eg-card figcaption {
+    padding: 10px 12px;
+    font-weight: 700; font-size: 14px;
+    color: var(--text);
+    border-top: 1px solid #1e2b3a;
+  }
+  
+  /* -----------------------------
+     8) Exercise preview (video)
+  ----------------------------- */
+  .exercise-preview {
+    margin-top: 15px;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .exercise-preview video {
+    display: none; /* hidden by default, shown via JS */
+    width: 200px; height: auto;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    box-shadow: var(--shadow);
+  }
+  
+  /* Logo */
+  .logo { width: 180px; height: 150px; }
+  
+  /* -----------------------------
+     9) Responsive
+  ----------------------------- */
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .eg-grid { grid-template-columns: 1fr; }
+    .eg-card img { height: 180px; }
+  }
+  
+  /* -----------------------------
+     10) Animations
+  ----------------------------- */
+  @keyframes shine {
+    to { transform: translateX(100%); }
+  }
+  
+  /* -----------------------------
+     11) Brand (title + slogan)
+     Neon fitness style
+  ----------------------------- */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  /* Neon circle logo (emoji or image) */
+  .brand .logo {
+    display: grid; place-items: center;
+    width: 48px; height: 48px;
+    border-radius: 999px;
+    background: radial-gradient(60% 60% at 50% 40%, rgba(34,211,238,.18), rgba(34,211,238,.05));
+    border: 1px solid color-mix(in srgb, var(--accent), #0d1520 30%);
+    box-shadow:
+      0 0 0 1px inset rgba(255,255,255,.06),
+      0 10px 30px rgba(34,211,238,.12);
+    transform: translateZ(0);
+    animation: brandPulse 3.2s ease-in-out infinite;
+    font-size: 24px;
+    color: var(--text);
+  }
+  .logo img { width: 150%; height: 150%; object-fit: cover; border-radius: 50%; }
+  
+  /* Title: gradient + glow */
+  .brand h1 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: .3px;
+    line-height: 1.05;
+    font-size: clamp(18px, 2.2vw, 24px);
+    background: linear-gradient(92deg, var(--text) 0%, #d6fff3 35%, var(--accent) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 18px rgba(34,211,238,.12));
+  }
+  
+  /* Slogan: subtle neon underline */
+  .brand p {
+    margin: 3px 0 0;
+    color: color-mix(in srgb, var(--muted), #fff 12%);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    opacity: .92;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+  }
+  .brand p::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: .55;
+    border-radius: 2px;
+  }
+  
+  /* Hover shine effect */
+  .topbar .brand:hover h1 {
+    filter: drop-shadow(0 10px 28px rgba(34,211,238,.16));
+  }
+  .topbar .brand:hover p::after { opacity: .9; }
+  
+  /* Logo pulse animation */
+  @keyframes brandPulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 1px inset rgba(255,255,255,.06),
+        0 10px 30px rgba(34,211,238,.12);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px inset rgba(255,255,255,.08),
+        0 16px 44px rgba(34,211,238,.22);
+      transform: scale(1.02);
+    }
+  }
+  
+  /* Accessibility: disable animations if user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .brand .logo { animation: none; }
+  }
+  
