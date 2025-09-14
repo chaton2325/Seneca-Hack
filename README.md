@@ -10,7 +10,7 @@ Deployed on an Ubuntu VPS with SSH access (Increase performances if we scale our
 ---
 
 ## Images Capture (Pc)
-<img src="https://crotale.mirhosty.com/static/image5.png" alt="Capture PC" width="500"/>
+<img src="https://crotale.mirhosty.com/static/image5.jpg" alt="Capture PC" width="500"/>
 
 ## Images Capture (Smartphone)
 <p align="center">
