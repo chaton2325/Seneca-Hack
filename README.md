@@ -9,13 +9,16 @@ Deployed on an Ubuntu VPS with SSH access (Increase performances if we scale our
 
 ---
 
-## Images Capture (Pc large screen)
-<img src="https://crotale.mirhosty.com/static/image1.png" alt="Capture PC" width="500"/>
+## Images Capture (Pc)
+<img src="https://crotale.mirhosty.com/static/image5.png" alt="Capture PC" width="500"/>
 
 ## Images Capture (Smartphone)
-<img src="https://crotale.mirhosty.com/static/image2.jpg" alt="Capture Smartphone" width="200"/>
-<img src="https://crotale.mirhosty.com/static/image3.jpg" alt="Capture Smartphone" width="200"/>
-<img src="https://crotale.mirhosty.com/static/image4.jpg" alt="Capture Smartphone" width="200"/>
+<p align="center">
+  <img src="https://crotale.mirhosty.com/static/image2.jpg" alt="Capture Smartphone" width="200"/>
+  <img src="https://crotale.mirhosty.com/static/image3.jpg" alt="Capture Smartphone" width="200"/>
+  <img src="https://crotale.mirhosty.com/static/image4.jpg" alt="Capture Smartphone" width="200"/>
+</p>
+
 
 
 ## Objective
@@ -45,18 +48,21 @@ Create an AI training coach capable of:
 
 Créez un **venv Python 3.10–3.11** (évitez 3.12 si vous utilisez Mediapipe < 0.10.14).
 
-## requirements.txt (vCompatibles versions) :
+## requirements.txt (Compatibles versions)
+
+```txt
 Flask==3.0.3
 python-socketio==5.11.3
 Flask-SocketIO==5.4.1
-eventlet==0.36.1         
-mediapipe==0.10.14       
+eventlet==0.36.1
+mediapipe==0.10.14
 opencv-python==4.10.0.84
 numpy==2.0.2
-scipy==1.13.1            
-sounddevice==0.4.7       
-pyttsx3==2.98            
-tflite-runtime==2.14.0 
+scipy==1.13.1
+sounddevice==0.4.7
+pyttsx3==2.98
+tflite-runtime==2.14.0
+```
 
 ## Features
 
