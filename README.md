@@ -1,11 +1,21 @@
 # FitMaster – AI Training Coach with Chatbot
 
+![Logo du projet](https://crotale.mirhosty.com/static/Fitmaster-logo.png)
+
 Project developed during the Seneca Hackathon 2025.  
 FitMaster is an AI-powered training coach that analyzes sports movements in real-time via webcam. It provides instant visual and vocal feedback, evaluates movement quality, helps prevent injuries, and includes an **integrated chatbot** that answers users' questions about exercises, posture, and general workout guidance.  
 
-Deployed on an Ubuntu VPS with SSH access → [Live demo](https://crotale.mirhosty.com/).
+Deployed on an Ubuntu VPS with SSH access (Increase performances if we scale our VPS) → [Live demo](https://crotale.mirhosty.com/).
 
 ---
+
+## Images Capture (Pc large screen)
+![Capture d'écran](https://crotale.mirhosty.com/static/image1.png)
+
+## Images Capture (Smartphone)
+![Capture d'écran](https://crotale.mirhosty.com/static/image2.jpg)
+![Capture d'écran](https://crotale.mirhosty.com/static/image3.jpg)
+![Capture d'écran](https://crotale.mirhosty.com/static/image4.jpg)
 
 ## Objective
 
@@ -20,13 +30,32 @@ Create an AI training coach capable of:
 
 ## Tech Stack
 
-- **Backend** → Flask (Python, port 8097)  
-- **Frontend** → HTML / CSS / JavaScript  
-- **AI Vision** → [MediaPipe](https://developers.google.com/mediapipe) + [PyTorch](https://pytorch.org/)  
-- **Chatbot** → integrated on the web interface (JS + Python backend)  
-- **Deployment** → Ubuntu VPS + PM2 for process management  
+
+- **Backend** : Python **Flask** + **Flask‑Socket.IO** (transport temps réel), évent. **Eventlet** comme serveur async.
+- **Frontend** : HTML/CSS/JS, **Socket.IO client**, Canvas/WebGL pour affichage, WebAudio pour TTS (optionnel).
+- **Vision** : **MediaPipe Pose** (extraction points clés), **OpenCV** (traitement), **NumPy** (angles/metrics).
+- **(Optionnel)** Modèles **TFLite**/accélération CPU (XNNPACK) si vous utilisez un modèle custom.
+- **I/O** : Webcam côté navigateur (getUserMedia) ou flux image envoyé au backend (selon variante).
+- **Fonctions** : Détection de posture, calcul d’angles (genoux, hanches, coudes, épaules…), logique de répétitions, **score qualité de mouvement** basé sur la cinématique, retour vocal/texte.
 
 ---
+
+## 📦 Dépendances et versions testées (pinnées)
+
+Créez un **venv Python 3.10–3.11** (évitez 3.12 si vous utilisez Mediapipe < 0.10.14).
+
+## requirements.txt (vCompatibles versions) :
+Flask==3.0.3
+python-socketio==5.11.3
+Flask-SocketIO==5.4.1
+eventlet==0.36.1         
+mediapipe==0.10.14       
+opencv-python==4.10.0.84
+numpy==2.0.2
+scipy==1.13.1            
+sounddevice==0.4.7       
+pyttsx3==2.98            
+tflite-runtime==2.14.0 
 
 ## Features
 
@@ -62,7 +91,7 @@ venv\Scripts\activate     # Windows
 # Install dependencies
 pip install -r requirements.txt
 
-# Run Flask server on port 8097
+# Run Flask server on port 8097 (Or choose your port)
 flask run --host=0.0.0.0 --port=8097
 Frontend → open index.html in your browser or run with your preferred server.
 
