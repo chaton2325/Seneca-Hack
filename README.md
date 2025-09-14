@@ -54,14 +54,9 @@ Créez un **venv Python 3.10–3.11** (évitez 3.12 si vous utilisez Mediapipe <
 Flask==3.0.3
 python-socketio==5.11.3
 Flask-SocketIO==5.4.1
-eventlet==0.36.1
 mediapipe==0.10.14
 opencv-python==4.10.0.84
 numpy==2.0.2
-scipy==1.13.1
-sounddevice==0.4.7
-pyttsx3==2.98
-tflite-runtime==2.14.0
 ```
 
 ## Features
