@@ -1,6 +1,6 @@
 # FitMaster – AI Training Coach with Chatbot
 
-![Logo du projet](https://crotale.mirhosty.com/static/Fitmaster-logo.png)
+<img src="https://crotale.mirhosty.com/static/Fitmaster-logo.png" alt="Logo du projet" width="200"/>
 
 Project developed during the Seneca Hackathon 2025.  
 FitMaster is an AI-powered training coach that analyzes sports movements in real-time via webcam. It provides instant visual and vocal feedback, evaluates movement quality, helps prevent injuries, and includes an **integrated chatbot** that answers users' questions about exercises, posture, and general workout guidance.  
@@ -10,12 +10,13 @@ Deployed on an Ubuntu VPS with SSH access (Increase performances if we scale our
 ---
 
 ## Images Capture (Pc large screen)
-![Capture d'écran](https://crotale.mirhosty.com/static/image1.png)
+<img src="https://crotale.mirhosty.com/static/image1.png" alt="Capture PC" width="500"/>
 
 ## Images Capture (Smartphone)
-![Capture d'écran](https://crotale.mirhosty.com/static/image2.jpg)
-![Capture d'écran](https://crotale.mirhosty.com/static/image3.jpg)
-![Capture d'écran](https://crotale.mirhosty.com/static/image4.jpg)
+<img src="https://crotale.mirhosty.com/static/image2.jpg" alt="Capture Smartphone" width="200"/>
+<img src="https://crotale.mirhosty.com/static/image3.jpg" alt="Capture Smartphone" width="200"/>
+<img src="https://crotale.mirhosty.com/static/image4.jpg" alt="Capture Smartphone" width="200"/>
+
 
 ## Objective
 
