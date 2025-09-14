@@ -16,7 +16,7 @@ Deployed on an Ubuntu VPS with SSH access (Increase performances if we scale our
 <p align="center">
   <img src="https://crotale.mirhosty.com/static/image2.jpg" alt="Capture Smartphone" width="200"/>
   <img src="https://crotale.mirhosty.com/static/image3.jpg" alt="Capture Smartphone" width="200"/>
-  <img src="https://crotale.mirhosty.com/static/image4.jpg" alt="Capture Smartphone" width="200"/>
+  <img src="https://crotale.mirhosty.com/static/image6.jpg" alt="Capture Smartphone" width="200"/>
 </p>
 
 
